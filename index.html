@@ -7,7 +7,7 @@
 <meta name="description" content="Commercial LED lighting retrofits for Tampa, St. Pete, and Sarasota. Free lighting savings audit. Duke Energy, TECO, and FPL rebate coordination. Often no upfront cost." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
     /* Light, off-white-driven palette — all colors hit WCAG AA on white */
@@ -15,7 +15,7 @@
     --cream-2: #F4ECE0;        /* alt section background */
     --white: #FFFFFF;          /* card surface */
     --ink: #1A2332;            /* primary text · 15.6:1 on cream ✓ AAA */
-    --ink-2: #3A4A5C;          /* body text · 8.2:1 on cream ✓ AAA */
+    --ink-2: #000;          /* body text · 8.2:1 on cream ✓ AAA */
     --muted: #5B6B7D;          /* secondary text · 5.4:1 on cream ✓ AA */
     --orange: #C44515;         /* primary brand · 5.6:1 on white ✓ AA */
     --orange-deep: #A33810;    /* hover · 7.1:1 on white ✓ AAA */
@@ -39,7 +39,7 @@
     -webkit-font-smoothing: antialiased;
   }
   h1, h2, h3, h4, .ui {
-    font-family: 'Syne', sans-serif;
+    font-family: "Archivo", Arial, sans-serif;
     color: var(--ink);
     letter-spacing: -0.015em;
     line-height: 1.15;
@@ -65,26 +65,37 @@
     padding: 14px 24px; max-width: 1200px; margin: 0 auto;
   }
   .logo {
-    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.15rem;
+    font-family: "Archivo", Arial, sans-serif; font-weight: 700; font-size: 1.15rem;
     color: var(--ink); display: flex; align-items: center; gap: 6px;
   }
   .logo .bolt { color: var(--orange); font-size: 1.3rem; }
   .nav-links { display: flex; gap: 28px; align-items: center; }
   .nav-links a {
-    color: var(--ink-2); font-family: 'Syne', sans-serif;
+    color: var(--ink-2); font-family: "Archivo", Arial, sans-serif;
     font-size: 0.92rem; font-weight: 500;
   }
-  .nav-links a:hover { color: var(--orange); }
+   .nav-links a:hover { color: var(--orange); }
   .btn {
     display: inline-block;
-    background: var(--orange);
+    background: var(--orange-deep);
     color: var(--white);
-    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-family: "Archivo", Arial, sans-serif; font-weight: 700;
     padding: 12px 22px; border-radius: 8px;
     border: none; cursor: pointer;
     transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
     font-size: 0.95rem; letter-spacing: 0.01em;
   }
+    .btn-light {
+    display: inline-block;
+    background: var(--orange-deep);
+    color: var(--white);
+    font-family: "Archivo", Arial, sans-serif; font-weight: 700;
+    padding: 12px 22px; border-radius: 8px;
+    border: none; cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    font-size: 0.95rem; letter-spacing: 0.01em;
+  }
+
   .btn:hover { background: var(--orange-deep); transform: translateY(-1px); box-shadow: var(--shadow); color: var(--white); }
   .btn-lg { padding: 16px 30px; font-size: 1.05rem; }
   .btn-outline {
@@ -145,7 +156,7 @@
     font-size: 1.4rem; flex-shrink: 0;
   }
   .badge-text {
-    font-family: 'Syne', sans-serif;
+    font-family: "Archivo", Arial, sans-serif;
   }
   .badge-text strong { color: var(--ink); font-size: 1.05rem; }
   .badge-text span { color: var(--muted); font-size: 0.85rem; display: block; }
@@ -161,11 +172,11 @@
     box-shadow: 0 4px 14px rgba(26,35,50,0.04);
   }
   .stat .num {
-    font-family: 'Syne', sans-serif; font-weight: 800; color: var(--orange);
+    font-family: "Archivo", Arial, sans-serif; font-weight: 800; color: var(--orange);
     font-size: 2.2rem; line-height: 1;
   }
   .stat .label {
-    color: var(--ink); font-family: 'Syne', sans-serif;
+    color: var(--ink); font-family: "Archivo", Arial, sans-serif;
     margin-top: 8px; font-size: 0.92rem; letter-spacing: 0.01em;
     font-weight: 500;
   }
@@ -181,12 +192,12 @@
     gap: 28px; flex-wrap: wrap;
   }
   .util-label {
-    font-family: 'Syne', sans-serif; color: var(--muted);
+    font-family: "Archivo", Arial, sans-serif; color: var(--muted);
     font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase;
     font-weight: 600;
   }
   .util {
-    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-family: "Archivo", Arial, sans-serif; font-weight: 700;
     color: var(--ink); font-size: 1.1rem;
     display: flex; align-items: center; gap: 8px;
   }
@@ -219,7 +230,7 @@
     display: inline-flex; align-items: center; justify-content: center;
     width: 44px; height: 44px; border-radius: 50%;
     background: var(--orange); color: var(--white);
-    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.15rem;
+    font-family: "Archivo", Arial, sans-serif; font-weight: 800; font-size: 1.15rem;
     margin-bottom: 18px;
   }
   .step h3 { margin-bottom: 10px; }
@@ -254,7 +265,7 @@
     margin-top: 16px; align-self: flex-start;
     background: var(--forest-tint); color: var(--forest);
     padding: 6px 14px; border-radius: 20px;
-    font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 700;
+    font-family: "Archivo", Arial, sans-serif; font-size: 0.85rem; font-weight: 700;
   }
   @media (max-width: 900px) { .props { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 540px) { .props { grid-template-columns: 1fr; } }
@@ -281,7 +292,7 @@
     box-shadow: var(--shadow);
   }
   .savings-card .big {
-    font-family: 'Syne', sans-serif; font-weight: 800; color: var(--orange);
+    font-family: "Archivo", Arial, sans-serif; font-weight: 800; color: var(--orange);
     font-size: 3.4rem; line-height: 1;
   }
   .savings-card .desc {
@@ -311,7 +322,7 @@
     font-weight: 800; font-size: 1.05rem;
   }
   .split-list .txt strong {
-    display: block; font-family: 'Syne', sans-serif; color: var(--ink);
+    display: block; font-family: "Archivo", Arial, sans-serif; color: var(--ink);
     font-size: 1.02rem; margin-bottom: 4px;
   }
   .split-list .txt span { color: var(--ink-2); font-size: 0.96rem; line-height: 1.5; }
@@ -329,7 +340,7 @@
   .rebate:nth-child(3) { border-top-color: #1976D2; }
   .rebate h3 { margin-bottom: 8px; }
   .rebate .util-tag {
-    font-family: 'Syne', sans-serif; font-size: 0.82rem;
+    font-family: "Archivo", Arial, sans-serif; font-size: 0.82rem;
     color: var(--orange-deep); text-transform: uppercase; letter-spacing: 0.1em;
     margin-bottom: 6px; display: block; font-weight: 700;
   }
@@ -359,7 +370,7 @@
   .avatar {
     width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
     background-size: cover; background-position: center;
-    font-family: 'Syne', sans-serif; font-weight: 700; color: var(--white);
+    font-family: "Archivo", Arial, sans-serif; font-weight: 700; color: var(--white);
     display: flex; align-items: center; justify-content: center;
     font-size: 1.05rem;
   }
@@ -367,7 +378,7 @@
   .avatar.a2 { background: linear-gradient(135deg, #1F6E2A, #4CAF50); }
   .avatar.a3 { background: linear-gradient(135deg, #1976D2, #42A5F5); }
   .testi-name {
-    font-family: 'Syne', sans-serif; font-weight: 600; color: var(--ink);
+    font-family: "Archivo", Arial, sans-serif; font-weight: 600; color: var(--ink);
     font-size: 0.98rem;
   }
   .testi-role { color: var(--muted); font-size: 0.86rem; margin-top: 2px; }
@@ -451,7 +462,7 @@
       <a href="#how">How It Works</a>
       <a href="#properties">Properties</a>
       <a href="#rebates">Rebates</a>
-      <a href="#audit" class="btn">Free Audit</a>
+      <a href="#audit" class="btn-light" style="color:#fff;">Free Audit</a>
     </div>
   </div>
 </nav>
@@ -470,7 +481,7 @@
         </div>
         <div class="hero-trust">
           <div class="trust-avatars">
-            <span></span><span></span><span></span><span></span>
+            <span>ereer</span><span></span><span></span><span></span>
           </div>
           <span>Trusted by 200+ Tampa Bay properties · Licensed & insured</span>
         </div>
@@ -478,8 +489,8 @@
 
       <div class="hero-img-wrap fade-in">
         <img
-          src="https://images.unsplash.com/photo-1565514020179-026b92b84bb6?w=900&q=80&auto=format&fit=crop"
-          alt="Modern commercial warehouse interior lit by bright LED high-bay fixtures"
+          src="images/energy-auditor-banner.png"
+          alt="Energy auditor inspecting commercial warehouse"
           loading="eager"
         />
         <div class="hero-img-badge">
@@ -653,7 +664,7 @@
 <section>
   <div class="container split">
     <div class="split-img fade-in">
-      <img src="https://images.unsplash.com/photo-1581092334651-ddf26d9a09d0?w=900&q=80&auto=format&fit=crop" alt="LED retrofit installer working on a high-bay fixture" loading="lazy" />
+      <img src="images/auditor-manager.png" alt="Energy auditor speaking to building manager" loading="lazy" />
     </div>
     <div class="split-content fade-in">
       <span class="eyebrow">Why Tampa Bay Owners Choose Us</span>
