@@ -1,21 +1,100 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// FILE: api/qualify.js
+// WHERE IT LIVES: In your Vercel project at the path /api/qualify.js
+// WHAT IT DOES: Sits between your form and the Claude API so your API key
+//               stays secret on the server. Also sends lead data to your
+//               Make webhook for the automation pipeline.
+// ─────────────────────────────────────────────────────────────────────────────
+
 export default async function handler(req, res) {
+  // ── 1. Only accept POST requests ──────────────────────────────────────────
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  // ── 2. Pull the form data out of the request body ─────────────────────────
+  // The form sends a JSON object with all the lead's info
+  const leadData = req.body;
+
+  // ── 3. Build the prompt for Claude ────────────────────────────────────────
+  // This is the same prompt that was in your form, but now it lives here
+  // on the server where it's safe
+  const prompt = `You are an AI lead qualifier for FreeEnergyConsultants.com — a commercial LED lighting retrofit consultancy in Tampa Bay, FL (Tampa, St. Pete, Sarasota). They target warehouses, retail centers, office buildings, property managers. Core offer: free lighting audit. Utility partners: Duke Energy FL, TECO, FPL. Respond ONLY with valid JSON, no markdown, no extra text:
+
+{
+  "score": <1-100>,
+  "tier": "<A|B|C>",
+  "tierReason": "<1 sentence>",
+  "summary": "<2 sentences: who this is and their situation>",
+  "estimatedSavings": "<specific monthly or annual savings range based on their property type, size, fixture count>",
+  "rebateNote": "<1 sentence about rebate eligibility based on their utility>",
+  "outreachSubject": "<personalized email subject line — reference their specific situation>",
+  "outreachOpener": "<2-3 sentence warm, advisory email opener referencing their property type, location, lighting situation, and pain points>"
 }
-canst response = await fetch("https://api.anthropic.com/v1/messages", {
-method: "POST",
-headers: {
-} ,
-"Content-Type": "application/json",
-"x-api-key": process.env.ANTHROPIC_API_KEY,
-"anthropic-version": "2023-06-01"
-body: JSON.stringify({
-})
-} ) ;
-model: "claude-sonnet-4-20250514",
-max_tokens: 1000,
-messages: [{ role: "user", content: req.body.prompt }]
-canst data = await response.json();
-res.status(200).json(data);
-3.
 
+Lead data:
+Business: ${leadData.businessName}
+Contact: ${leadData.contactName} | Email: ${leadData.email} | Phone: ${leadData.phone}
+Address: ${leadData.address} | Best time: ${leadData.bestTime || "Not specified"}
+Property type: ${leadData.propType} | Size: ${leadData.sqft} sq ft
+Utility: ${leadData.utility} | Role: ${leadData.role}
+Current lighting: ${leadData.ltTypes?.join(", ") || "Not specified"}
+Fixture count: ${leadData.fixtures} | Hours/day: ${leadData.hoursDay}
+Upgrade areas: ${leadData.areas?.join(", ") || "Not specified"}
+Pain points: ${leadData.pains?.join(", ") || "Not specified"}
+Timeline: ${leadData.timeline}
+Notes: ${leadData.notes || "None"}`;
 
+  try {
+    // ── 4. Call Claude API with your secret key ─────────────────────────────
+    // process.env.ANTHROPIC_API_KEY reads the key from Vercel's environment
+    // variables — it's NEVER sent to the browser
+    const claudeResponse = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": process.env.ANTHROPIC_API_KEY,
+        "anthropic-version": "2023-06-01",
+      },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 1000,
+        messages: [{ role: "user", content: prompt }],
+      }),
+    });
 
+    const claudeData = await claudeResponse.json();
+    const aiText = claudeData.content?.[0]?.text || "";
+    const aiResult = JSON.parse(aiText.replace(/```json|```/g, "").trim());
+
+    // ── 5. Send to Make webhook (automation pipeline) ───────────────────────
+    // Replace this URL with the webhook URL Make gives you when you create
+    // your scenario. If you haven't set up Make yet, comment this section out.
+    const MAKE_WEBHOOK_URL = process.env.MAKE_WEBHOOK_URL;
+
+    if (MAKE_WEBHOOK_URL) {
+      // Fire-and-forget: we don't wait for Make to respond because we
+      // don't want the user staring at a spinner while Make processes
+      fetch(MAKE_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          // Send BOTH the raw form data AND the AI results to Make
+          lead: leadData,
+          ai: aiResult,
+          submittedAt: new Date().toISOString(),
+        }),
+      }).catch((err) => {
+        // Log the error but don't fail the user's request
+        console.error("Make webhook error:", err);
+      });
+    }
+
+    // ── 6. Send the AI result back to the form ──────────────────────────────
+    return res.status(200).json(aiResult);
+
+  } catch (error) {
+    console.error("Qualification error:", error);
+    return res.status(500).json({ err: true, message: "Qualification failed" });
+  }
+}
